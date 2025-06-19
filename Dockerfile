@@ -16,11 +16,11 @@ RUN apt-get update && \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy composer files first for better build caching
-COPY GLOBAL/composer.json GLOBAL/composer.lock* /var/www/html/
+COPY src/composer.json src/composer.lock* /var/www/html/
 RUN if [ -f composer.json ]; then composer install --no-dev --optimize-autoloader; fi
 
 # Copy the rest of the application code
-COPY GLOBAL/ /var/www/html/
+COPY src/ /var/www/html/
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
